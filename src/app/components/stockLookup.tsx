@@ -78,7 +78,7 @@ export default function StockLookup() {
 
     if (stocks.length === 0) {
       return (
-        <Empty image="/public/assets/noResults.png">
+        <Empty>
           <Button onClick={() => resetStocks}>Reset Search</Button>
         </Empty>
       );
