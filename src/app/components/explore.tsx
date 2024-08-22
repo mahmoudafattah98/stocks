@@ -34,7 +34,7 @@ const Explore: React.FC = () => {
           height={30}
         />
       </Header>
-      <Content style={{ padding: "0 48px" }}>
+      <Content style={{ height: "65vh", padding: "0 48px" }}>
         <StockLookup />
       </Content>
       <Footer
