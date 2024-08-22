@@ -48,7 +48,7 @@ export default function StockLookup() {
 
     try {
       const response = await fetch(
-        `https://api.polygon.io/v3/reference/tickers?ticker=${ticker}&active=true&apiKey=viPbJp10BxQKnao_CgbjW3rpmf26RZbt`
+        `https://api.polygon.io/v3/reference/tickers?search=${ticker}&active=true&apiKey=viPbJp10BxQKnao_CgbjW3rpmf26RZbt`
       );
 
       if (!response.ok) {
@@ -78,7 +78,7 @@ export default function StockLookup() {
 
     if (stocks.length === 0) {
       return (
-        <Empty>
+        <Empty image="/public/assets/noResults.png">
           <Button onClick={() => resetStocks}>Reset Search</Button>
         </Empty>
       );

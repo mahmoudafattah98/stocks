@@ -37,7 +37,19 @@ const Explore: React.FC = () => {
       <Content style={{ padding: "0 48px" }}>
         <StockLookup />
       </Content>
-      <Footer style={{ textAlign: "center" }}>
+      <Footer
+        style={{
+          textAlign: "center",
+          justifyContent: "center",
+          display: "flex",
+          alignItems: "center",
+          height: 90,
+          position: "sticky",
+          zIndex: 1,
+          bottom: 0,
+          marginTop: "20px",
+        }}
+      >
         Created by : Mahmoud Abdelfattah @{new Date().getFullYear()}
       </Footer>
     </Layout>
