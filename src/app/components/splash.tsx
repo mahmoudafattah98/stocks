@@ -29,7 +29,7 @@ export default function Splash() {
           marginTop: "30px",
           fontFamily: roboto.style.fontFamily,
           fontSize: "25px",
-          marginBottom: "30px",
+          marginBottom: "70px",
         }}
       >
         By: Mahmoud Abdelfattah
