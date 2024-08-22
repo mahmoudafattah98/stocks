@@ -1,16 +1,40 @@
-"use client";
-
+// components/splash.tsx
 import Image from "next/image";
-
+import { Roboto } from "next/font/google";
+const roboto = Roboto({ subsets: ["latin"], weight: "100" });
+import { Spin } from "antd";
+import { useEffect, useState } from "react";
 export default function Splash() {
   return (
-    <div style={{ backgroundColor: "black", height: "1vh", width: "100%" }}>
+    <div
+      style={{
+        backgroundColor: "rgba(0, 21, 41, 1)",
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "white",
+      }}
+    >
       <Image
         src="/assets/nasdaqLogo.png"
         alt="Nasdaq Logo"
-        width={100}
-        height={100}
-      ></Image>
+        width={527.86}
+        height={150}
+      />
+      <h2
+        style={{
+          marginTop: "30px",
+          fontFamily: roboto.style.fontFamily,
+          fontSize: "25px",
+          marginBottom: "30px",
+        }}
+      >
+        By: Mahmoud Abdelfattah
+      </h2>{" "}
+      <Spin size="large" />
     </div>
   );
 }
