@@ -1,6 +1,7 @@
 import React from "react";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import Image from "next/image";
+import StockLookup from "./stockLookup";
 
 const { Header, Content, Footer } = Layout;
 
@@ -21,6 +22,9 @@ const Explore: React.FC = () => {
           display: "flex",
           alignItems: "center",
           height: 90,
+          position: "sticky",
+          zIndex: 1,
+          top: 0,
         }}
       >
         <Image
@@ -30,7 +34,9 @@ const Explore: React.FC = () => {
           height={30}
         />
       </Header>
-      <Content style={{ padding: "0 48px" }}></Content>
+      <Content style={{ padding: "0 48px" }}>
+        <StockLookup />
+      </Content>
       <Footer style={{ textAlign: "center" }}>
         Created by : Mahmoud Abdelfattah @{new Date().getFullYear()}
       </Footer>

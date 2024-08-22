@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Roboto } from "next/font/google";
 const roboto = Roboto({ subsets: ["latin"], weight: "100" });
 import { Spin } from "antd";
-import { useEffect, useState } from "react";
 export default function Splash() {
   return (
     <div
