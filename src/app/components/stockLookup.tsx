@@ -48,7 +48,7 @@ export default function StockLookup() {
 
     try {
       const response = await fetch(
-        `https://api.polygon.io/v3/reference/tickers?ticker=${ticker}&active=true&limit=100&apiKey=viPbJp10BxQKnao_CgbjW3rpmf26RZbt`
+        `https://api.polygon.io/v3/reference/tickers?ticker=${ticker}&active=true&apiKey=viPbJp10BxQKnao_CgbjW3rpmf26RZbt`
       );
 
       if (!response.ok) {
@@ -88,10 +88,21 @@ export default function StockLookup() {
       <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
         {stocks.map((stock) => (
           <Col span={6} key={uuidv4()}>
-            <Card hoverable bordered={false} style={{ flexDirection: "row" }}>
-              <Avatar>{stock.ticker.substring(0, 2)}</Avatar>
+            <Card
+              title={
+                <Avatar
+                  size={52}
+                  style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
+                >
+                  {stock.ticker.substring(0, 2)}
+                </Avatar>
+              }
+              hoverable
+              bordered={false}
+              style={{ display: "flex", flexDirection: "row" }}
+            >
               <div style={{ flexDirection: "column" }}>
-                <p style={{ textDecoration: "bold" }}>{stock.ticker}</p>
+                <p style={{ fontWeight: "bold" }}>{stock.ticker}</p>
                 <p>{stock.name}</p>
               </div>
             </Card>
