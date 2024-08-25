@@ -34,7 +34,7 @@ const Explore: React.FC = () => {
           height={30}
         />
       </Header>
-      <Content style={{ height: "65vh", padding: "0 48px" }}>
+      <Content style={{ padding: "0 48px" }}>
         <StockLookup />
       </Content>
       <Footer
@@ -44,7 +44,7 @@ const Explore: React.FC = () => {
           display: "flex",
           alignItems: "center",
           height: 90,
-          position: "sticky",
+          position: "static",
           zIndex: 1,
           bottom: 0,
           marginTop: "20px",
