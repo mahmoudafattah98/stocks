@@ -1,22 +1,14 @@
 import React from "react";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout } from "antd";
 import Image from "next/image";
 import StockLookup from "./stockLookup";
 
 const { Header, Content, Footer } = Layout;
 
-const items = new Array(15).fill(null).map((_, index) => ({
-  key: index + 1,
-  label: `nav ${index + 1}`,
-}));
-
 const Explore: React.FC = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
   return (
-    <Layout>
+    <Layout style={{ minHeight: "100vh" }}>
+      {" "}
       <Header
         style={{
           display: "flex",
@@ -37,7 +29,7 @@ const Explore: React.FC = () => {
       <Content
         style={{
           padding: "0 48px",
-          minHeight: "65vh",
+          flex: 1, // Allow content to take up remaining space
         }}
       >
         <StockLookup />
@@ -49,9 +41,6 @@ const Explore: React.FC = () => {
           display: "flex",
           alignItems: "center",
           height: 90,
-          position: "static",
-          zIndex: 1,
-          bottom: 0,
           marginTop: "20px",
         }}
       >

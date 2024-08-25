@@ -1,5 +1,5 @@
-import { Input, Grid, Spin, Empty, Button, Avatar } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Input, Spin, Empty, Button, Avatar } from "antd";
+import { CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Card } from "antd";
@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const { Search } = Input;
 const apiKey = "viPbJp10BxQKnao_CgbjW3rpmf26RZbt";
+
 type Stock = {
   ticker: string;
   name: string;
@@ -25,15 +26,13 @@ type SearchResult = {
 export default function StockLookup() {
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchResult, setSearchResult]: [
-    SearchResult,
-    Dispatch<SetStateAction<SearchResult>>
-  ] = useState<SearchResult>({
+  const [searchResult, setSearchResult] = useState<SearchResult>({
     count: 0,
     request_id: "",
     results: [],
     status: "",
   });
+  const [rateLimited, setRateLimited] = useState(false);
 
   useEffect(() => {
     fetchStocks("");
@@ -41,10 +40,17 @@ export default function StockLookup() {
 
   async function fetchStocks(ticker: string) {
     setIsLoading(true);
+    setRateLimited(false);
+
     try {
       const response = await fetch(
         `https://api.polygon.io/v3/reference/tickers?search=${ticker}&active=true&apiKey=${apiKey}`
       );
+
+      if (response.status === 429) {
+        setRateLimited(true);
+        return;
+      }
 
       if (!response.ok) {
         throw new Error(`API error: ${response.status} ${response.statusText}`);
@@ -63,6 +69,7 @@ export default function StockLookup() {
   function resetStocks() {
     setStocks([]);
     setSearchResult({ count: 0, request_id: "", results: [], status: "" });
+    setRateLimited(false);
   }
 
   function renderStocks() {
@@ -78,7 +85,36 @@ export default function StockLookup() {
           }}
         >
           <Spin size="large" />
+          <br />
           <p>Loading...</p>
+        </div>
+      );
+    }
+
+    if (rateLimited) {
+      return (
+        <div
+          style={{
+            height: "65vh",
+            alignItems: "center",
+            justifyContent: "center",
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+          }}
+        >
+          <CloseCircleFilled
+            style={{ fontSize: "50px", color: "red", marginBottom: "20px" }}
+          />
+          <p style={{ fontWeight: "bold", fontSize: "24px" }}>
+            You have reached your maximum number of requests.
+          </p>
+          <p style={{ fontSize: "14px", marginBottom: "20px" }}>
+            Please wait at least 1 minute before retrying.
+          </p>
+          <Button type="primary" onClick={resetStocks}>
+            Reset Search
+          </Button>
         </div>
       );
     }
@@ -101,9 +137,9 @@ export default function StockLookup() {
     }
 
     return (
-      <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+      <Row gutter={[16, 16]}>
         {stocks.map((stock) => (
-          <Col span={6} key={uuidv4()}>
+          <Col key={uuidv4()} xs={24} sm={12} md={8} lg={6}>
             <Card
               title={
                 <Avatar
@@ -131,13 +167,13 @@ export default function StockLookup() {
   return (
     <>
       <Row justify={"center"} style={{ marginTop: "20px" }}>
-        <Col xs={24} md={18}>
+        <Col xs={24} sm={24} md={18} lg={12} xl={12}>
           <Search
             id="search"
             placeholder="Search for stocks by entering ticker e.g. AAPL, MCFT"
             size="large"
             onSearch={(searchTerm) => fetchStocks(searchTerm)}
-            style={{ marginBottom: "20px" }}
+            style={{ marginBottom: "40px" }}
           />
         </Col>
       </Row>
