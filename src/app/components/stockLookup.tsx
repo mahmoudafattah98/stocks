@@ -2,18 +2,19 @@ import { Input, Grid, Spin, Empty, Button, Avatar } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { Card } from "antd";
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const { Search } = Input;
-
+const apiKey = "viPbJp10BxQKnao_CgbjW3rpmf26RZbt";
 type Stock = {
   ticker: string;
   name: string;
   market: string;
   locale: string;
 };
+
 type SearchResult = {
   count?: number;
   request_id: string;
@@ -22,11 +23,8 @@ type SearchResult = {
 };
 
 export default function StockLookup() {
-  const [stocks, setStocks]: [Stock[], Dispatch<SetStateAction<Stock[]>>] =
-    useState([{ ticker: "", name: "", market: "", locale: "" }]);
+  const [stocks, setStocks] = useState<Stock[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [ticker, setTicker] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult]: [
     SearchResult,
     Dispatch<SetStateAction<SearchResult>>
@@ -40,18 +38,12 @@ export default function StockLookup() {
   useEffect(() => {
     fetchStocks("");
   }, []);
-  const today = new Date().toISOString().split("T")[0];
-  const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000)
-    .toISOString()
-    .split("T")[0];
 
   async function fetchStocks(ticker: string) {
     setIsLoading(true);
-    // const today = new Date().toISOString().split("T")[0];
-
     try {
       const response = await fetch(
-        `https://api.polygon.io/v3/reference/tickers?search=${ticker}&active=true&apiKey=viPbJp10BxQKnao_CgbjW3rpmf26RZbt`
+        `https://api.polygon.io/v3/reference/tickers?search=${ticker}&active=true&apiKey=${apiKey}`
       );
 
       if (!response.ok) {
@@ -59,11 +51,8 @@ export default function StockLookup() {
       }
 
       const data = await response.json();
-      console.log("Parsed JSON:", data);
       setSearchResult(data);
       setStocks(data.results);
-      console.log("data.results", data.results);
-      console.log("Stocks", stocks);
     } catch (error) {
       console.error("Error fetching stock data:", error);
     } finally {
@@ -73,10 +62,9 @@ export default function StockLookup() {
 
   function resetStocks() {
     setStocks([]);
-    setTicker("");
-    setSearchTerm("");
     setSearchResult({ count: 0, request_id: "", results: [], status: "" });
   }
+
   function renderStocks() {
     if (isLoading) {
       return (
@@ -106,41 +94,12 @@ export default function StockLookup() {
           }}
         >
           <Empty>
-            <Button onClick={() => resetStocks}>Reset Search</Button>
+            <Button onClick={resetStocks}>Reset Search</Button>
           </Empty>
         </div>
       );
     }
-    if (stocks.length <= 8) {
-      return (
-        <div style={{ height: "65vh" }}>
-          <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
-            {stocks.map((stock) => (
-              <Col span={6} key={uuidv4()}>
-                <Card
-                  title={
-                    <Avatar
-                      size={52}
-                      style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
-                    >
-                      {stock.ticker.substring(0, 2)}
-                    </Avatar>
-                  }
-                  hoverable
-                  bordered={false}
-                  style={{ display: "flex", flexDirection: "row" }}
-                >
-                  <div style={{ flexDirection: "column" }}>
-                    <p style={{ fontWeight: "bold" }}>{stock.ticker}</p>
-                    <p>{stock.name.substring(0, 37)}</p>
-                  </div>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </div>
-      );
-    }
+
     return (
       <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
         {stocks.map((stock) => (
