@@ -1,9 +1,8 @@
 import { Input, Spin, Empty, Button, Avatar } from "antd";
-import { CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
+import { CloseCircleFilled } from "@ant-design/icons";
 import { Col, Row } from "antd";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "antd";
-import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const { Search } = Input;
@@ -36,6 +35,7 @@ export default function StockLookup() {
 
   useEffect(() => {
     fetchStocks("");
+    logWhenBottomReached();
   }, []);
 
   async function fetchStocks(ticker: string) {
@@ -70,6 +70,19 @@ export default function StockLookup() {
     setStocks([]);
     setSearchResult({ count: 0, request_id: "", results: [], status: "" });
     setRateLimited(false);
+  }
+
+  function logWhenBottomReached() {
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      console.log("Scroll event detected");
+      if (windowHeight + scrollTop >= documentHeight - 1) {
+        console.log("Bottom of the page reached");
+      }
+    });
   }
 
   function renderStocks() {
