@@ -8,7 +8,6 @@ const queryClient = new QueryClient();
 
 export default function Home() {
   return (
-    // <main className={styles.main}>
     <main>
       <QueryClientProvider client={queryClient}>
         <Initial />
