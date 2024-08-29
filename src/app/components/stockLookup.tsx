@@ -97,33 +97,33 @@ export default function StockLookup() {
       );
     }
 
-    // if (rateLimited) {
-    //   return (
-    //     <div
-    //       style={{
-    //         height: "65vh",
-    //         alignItems: "center",
-    //         justifyContent: "center",
-    //         display: "flex",
-    //         flexDirection: "column",
-    //         textAlign: "center",
-    //       }}
-    //     >
-    //       <CloseCircleFilled
-    //         style={{ fontSize: "50px", color: "red", marginBottom: "20px" }}
-    //       />
-    //       <p style={{ fontWeight: "bold", fontSize: "24px" }}>
-    //         You have reached your maximum number of requests.
-    //       </p>
-    //       <p style={{ fontSize: "14px", marginBottom: "20px" }}>
-    //         Please wait at least 1 minute before retrying.
-    //       </p>
-    //       <Button type="primary" onClick={resetStocks}>
-    //         Reset Search
-    //       </Button>
-    //     </div>
-    //   );
-    // }
+    if (rateLimited && !data?.pages?.[0]?.results.length) {
+      return (
+        <div
+          style={{
+            height: "65vh",
+            alignItems: "center",
+            justifyContent: "center",
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+          }}
+        >
+          <CloseCircleFilled
+            style={{ fontSize: "50px", color: "red", marginBottom: "20px" }}
+          />
+          <p style={{ fontWeight: "bold", fontSize: "24px" }}>
+            You have reached your maximum number of requests.
+          </p>
+          <p style={{ fontSize: "14px", marginBottom: "20px" }}>
+            Please wait at least 1 minute before retrying.
+          </p>
+          <Button type="primary" onClick={resetStocks}>
+            Reset Search
+          </Button>
+        </div>
+      );
+    }
 
     if (!data?.pages?.[0]?.results.length) {
       return (
