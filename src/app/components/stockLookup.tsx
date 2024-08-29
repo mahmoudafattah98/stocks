@@ -29,7 +29,7 @@ export default function StockLookup() {
 
   const fetchStocks = async ({ pageParam = "" }) => {
     const response = await fetch(
-      `https://api.polygon.io/v3/reference/tickers?search=${ticker}&active=true&limit=12&cursor=${pageParam}&apiKey=${apiKey}`
+      `https://api.polygon.io/v3/reference/tickers?search=${ticker}&active=true&limit=24&cursor=${pageParam}&apiKey=${apiKey}`
     );
     if (response.status === 429) {
       setRateLimited(true);
@@ -47,7 +47,7 @@ export default function StockLookup() {
         if (lastPage === null) {
           return undefined;
         }
-        return lastPage.next_url?.split("cursor=")[1];
+        return lastPage?.next_url?.split("cursor=")[1];
       },
       initialPageParam: "",
       enabled: !!ticker,
@@ -135,7 +135,10 @@ export default function StockLookup() {
             display: "flex",
           }}
         >
-          <Empty>
+          <Empty
+            image={"assets/noResults.png"}
+            imageStyle={{ width: "254px", height: "294px" }}
+          >
             <Button onClick={resetStocks}>Reset Search</Button>
           </Empty>
         </div>
